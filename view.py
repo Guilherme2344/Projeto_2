@@ -3,6 +3,7 @@ from models.professor import Professor, NProfessor
 from models.diretoria import Diretoria, NDiretoria
 from models.agenda import Agenda, NAgenda
 from datetime import datetime
+import streamlit as st
 
 class View:
     def curso_inserir(nome, descricao, idDiretoria):
@@ -91,7 +92,7 @@ class View:
         lista = []
         hoje = datetime.today()
         for data in View.agenda_listar():
-            if data.get_data().date() == hoje.date():
+            if data.get_datatime().date() == hoje.date() and data.get_idProfessor() == st.session_state['professor_id']:
                 lista.append(data)
         return lista
 
