@@ -14,7 +14,11 @@ class EditarPerfilAdminUI:
     fone = st.text_input("Fone")
     senha = st.text_input("Senha")
     if st.button("Editar"):
-      View.editar_perfil_admin(id, "admin", email, fone, senha, '')
-      st.success("Perfil editado com sucesso!")
-      time.sleep(2)
-      st.rerun()
+      if email == '': st.error('Insira um e-mail')
+      elif fone == '': st.error('Insira um fone')
+      elif senha == '': st.error('Insira uma senha')
+      else:
+        View.editar_perfil_admin(id, "admin", email, fone, senha, '')
+        st.success("Perfil editado com sucesso!")
+        time.sleep(2)
+        st.rerun()

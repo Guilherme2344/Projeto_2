@@ -26,10 +26,13 @@ class ManterDiretoriaUI:
         nome = st.text_input("Informe o nome")
         fone = st.text_input("Informe o fone")
         if st.button("Inserir"):
-            View.diretoria_inserir(nome, fone)
-            st.success("Diretoria inserida com sucesso")
-            time.sleep(2)
-            st.rerun()
+            if nome == '': st.error('Informe um nome')
+            elif fone == '': st.error('Informe um fone')
+            else:
+                View.diretoria_inserir(nome, fone)
+                st.success("Diretoria inserida com sucesso")
+                time.sleep(2)
+                st.rerun()
 
     def atualizar():
         diretorias = View.diretoria_listar()
@@ -40,11 +43,15 @@ class ManterDiretoriaUI:
             nome = st.text_input("Informe o novo nome", op.get_nome())
             fone = st.text_input("Informe o novo fone", op.get_fone())
         if st.button("Atualizar"):
-            id = op.get_id()
-            View.diretoria_atualizar(id, nome, fone)
-            st.success("diretoria atualizada com sucesso")
-            time.sleep(2)
-            st.rerun()
+            if op == None: st.error('Selecione uma diretoria')
+            elif nome == '': st.error('Informe um nome')
+            elif fone == '': st.error('Informe um fone')
+            else:
+                id = op.get_id()
+                View.diretoria_atualizar(id, nome, fone)
+                st.success("diretoria atualizada com sucesso")
+                time.sleep(2)
+                st.rerun()
 
     def excluir():
         diretorias = View.diretoria_listar()
@@ -53,8 +60,10 @@ class ManterDiretoriaUI:
         else:
             op = st.selectbox("Exclusão de diretorias", diretorias)
         if st.button("Excluir"):
-            id = op.get_id()
-            View.diretoria_excluir(id)
-            st.success("diretoria excluída com sucesso")
-            time.sleep(2)
-            st.rerun()
+            if op == None: st.error('Selecione uma diretoria')
+            else:
+                id = op.get_id()
+                View.diretoria_excluir(id)
+                st.success("diretoria excluída com sucesso")
+                time.sleep(2)
+                st.rerun()

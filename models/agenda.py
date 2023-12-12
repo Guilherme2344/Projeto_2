@@ -27,7 +27,7 @@ class Agenda:
     def to_json(self):
         return {'__id':self.__id, '__datatime':self.__datatime.strftime('%d/%m/%Y %H:%M'), '__idCurso':self.__idCurso, '__idProfessor':self.__idProfessor}
     def __str__(self):
-        return f'{self.__id}, {self.__datatime},{self.__idCurso}, {self.__idProfessor}'
+        return f'{self.__id}, {self.__datatime}, {self.__idCurso}, {self.__idProfessor}'
 
 class NAgenda:
     __agendas = []

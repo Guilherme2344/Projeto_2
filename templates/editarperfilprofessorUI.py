@@ -17,7 +17,13 @@ class EditarPerfilProfessorUI:
     senha = st.text_input("Senha")
     diretoria = st.selectbox('Diretoria', diretorias)
     if st.button("Editar"):
-        View.editar_perfil_professor(id, nome, email, fone, senha, diretoria.get_id())
-        st.success("Perfil editado com sucesso!")
-        time.sleep(2)
-        st.rerun()
+        if nome == '': st.error('Insira um nome')
+        elif email == '': st.error('Insira um e-mail')
+        elif fone == '': st.error('Insira um fone')
+        elif senha == '': st.error('Insira uma senha')
+        elif diretoria == None: st.error('Selecione uma diretoria')
+        else:
+          View.editar_perfil_professor(id, nome, email, fone, senha, diretoria.get_id())
+          st.success("Perfil editado com sucesso!")
+          time.sleep(2)
+          st.rerun()

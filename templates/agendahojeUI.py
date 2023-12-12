@@ -13,6 +13,6 @@ class AgendaHojeUI:
       st.write("Nenhum horário cadastrado")
     else:
       dic = []
-      for obj in agendas: dic.append(obj.to_json())
-      df = pd.DataFrame(dic)
-      st.dataframe(df)
+      for obj in agendas: dic.append([obj.get_datatime()])
+      df = pd.DataFrame(dic, columns=['Data'])
+      st.dataframe(df, hide_index=True)

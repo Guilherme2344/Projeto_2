@@ -30,11 +30,15 @@ class ManterAgendaUI:
         curso = st.selectbox('Curso', cursos, index=None, placeholder='Selecione o curso')
         professor = st.selectbox('Professor', professores, index=None, placeholder='Selecione o professor')
         if st.button("Inserir"):
-            data = datetime.strptime(data, '%d/%m/%Y %H:%M')
-            View.agenda_inserir(data, curso.get_id(), professor.get_id())
-            st.success("Agenda inserida com sucesso")
-            time.sleep(2)
-            st.rerun()
+            if data == '' or ValueError(): st.error('Insira uma data válida')
+            elif curso == None: st.error('Selecione um curso')
+            elif professor == None: st.error('Selecione um professor')
+            else:
+                data = datetime.strptime(data, '%d/%m/%Y %H:%M')
+                View.agenda_inserir(data, curso.get_id(), professor.get_id())
+                st.success("Agenda inserida com sucesso")
+                time.sleep(2)
+                st.rerun()
 
     def atualizar():
         agendas = View.agenda_listar()
@@ -48,12 +52,17 @@ class ManterAgendaUI:
             curso = st.selectbox('Curso', cursos, index=None, placeholder='Selecione o novo curso')
             professor = st.selectbox('Professor', professores, index=None, placeholder='Selecione o novo professor')
             if st.button("Atualizar"):
-                data = datetime.strptime(data, '%d/%m/%Y %H:%M')
-                id = op.get_id()
-                View.agenda_atualizar(id, data, curso.get_id(), professor.get_id())
-                st.success("Agenda atualizada com sucesso")
-                time.sleep(2)
-                st.rerun()
+                if op == None: st.error('Selecione uma diretoria')
+                elif data == '' or ValueError(): st.error('Insira uma data válida')
+                elif curso == None: st.error('Selecione um curso')
+                elif professor == None: st.error('Selecione um professor')
+                else:
+                    data = datetime.strptime(data, '%d/%m/%Y %H:%M')
+                    id = op.get_id()
+                    View.agenda_atualizar(id, data, curso.get_id(), professor.get_id())
+                    st.success("Agenda atualizada com sucesso")
+                    time.sleep(2)
+                    st.rerun()
 
     def excluir():
         agendas = View.agenda_listar()
@@ -62,8 +71,10 @@ class ManterAgendaUI:
         else:
             op = st.selectbox('Agenda', agendas, index=None, placeholder='Selecione a agenda a ser excluída')
             if st.button("Excluir"):
-                id = op.get_id()
-                View.agenda_excluir(id)
-                st.success("Agenda excluída com sucesso")
-                time.sleep(2)
-                st.rerun()
+                if op == None: st.error('Selecione uma diretoria')
+                else:
+                    id = op.get_id()
+                    View.agenda_excluir(id)
+                    st.success("Agenda excluída com sucesso")
+                    time.sleep(2)
+                    st.rerun()

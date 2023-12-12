@@ -30,10 +30,16 @@ class ManterProfessorUI:
         senha = st.text_input("Informe a senha")
         diretoria = st.selectbox('Diretoria', diretorias, index=None, placeholder='Selecione a diretoria')
         if st.button("Inserir"):
-            View.professor_inserir(nome, email, fone, senha, diretoria.get_id())
-            st.success("Professor inserido com sucesso")
-            time.sleep(2)
-            st.rerun()
+            if nome == '': st.error('Insira um nome')
+            elif email == '': st.error('Insira um e-mail')
+            elif fone == '': st.error('Insira um fone')
+            elif senha == '': st.error('Insira uma senha')
+            elif diretoria == None: st.error('Selecione uma diretoria')
+            else:
+                View.professor_inserir(nome, email, fone, senha, diretoria.get_id())
+                st.success("Professor inserido com sucesso")
+                time.sleep(2)
+                st.rerun()
 
     def atualizar():
         professores = View.professor_listar()
@@ -48,11 +54,18 @@ class ManterProfessorUI:
             senha = st.text_input("Informe a nova senha")
             diretoria = st.selectbox('Nova diretoria', diretorias, index=None, placeholder='Selecione a diretoria')
         if st.button("Atualizar"):
-            id = op.get_id()
-            View.professor_atualizar(id, nome, email, fone, senha, diretoria.get_id())
-            st.success("Professor atualizado com sucesso")
-            time.sleep(2)
-            st.rerun()
+            if op == None: st.error('Selecione um professor')
+            elif nome == '': st.error('Insira um nome')
+            elif email == '': st.error('Insira um e-mail')
+            elif fone == '': st.error('Insira um fone')
+            elif senha == '': st.error('Insira uma senha')
+            elif diretoria == None: st.error('Selecione uma diretoria')
+            else:
+                id = op.get_id()
+                View.professor_atualizar(id, nome, email, fone, senha, diretoria.get_id())
+                st.success("Professor atualizado com sucesso")
+                time.sleep(2)
+                st.rerun()
 
     def excluir():
         professores = View.professor_listar()
@@ -61,8 +74,10 @@ class ManterProfessorUI:
         else:
             op = st.selectbox("Exclusão de professores", professores, index=None, placeholder='Selecione o professor')
             if st.button("Excluir"):
-                id = op.get_id()
-                View.professor_excluir(id)
-                st.success("Professor excluído com sucesso")
-                time.sleep(2)
-                st.rerun()
+                if op == None: st.error('Selecione um professor')
+                else:
+                    id = op.get_id()
+                    View.professor_excluir(id)
+                    st.success("Professor excluído com sucesso")
+                    time.sleep(2)
+                    st.rerun()

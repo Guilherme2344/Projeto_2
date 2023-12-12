@@ -28,10 +28,14 @@ class ManterCursoUI:
         descricao = st.text_input("Informe a descrição")
         diretoria = st.selectbox('Diretoria', diretorias, index=None, placeholder='Selecione a diretoria')
         if st.button("Inserir"):
-            View.curso_inserir(nome, descricao, diretoria.get_id())
-            st.success("Curso inserido com sucesso")
-            time.sleep(2)
-            st.rerun()
+            if nome == '': st.error('Insira um nome')
+            elif descricao == '': st.error('Insira uma descrição')
+            elif diretoria == None: st.error('Selecione uma diretoria')
+            else:
+                View.curso_inserir(nome, descricao, diretoria.get_id())
+                st.success("Curso inserido com sucesso")
+                time.sleep(2)
+                st.rerun()
 
     def atualizar():
         cursos = View.curso_listar()
@@ -44,11 +48,16 @@ class ManterCursoUI:
             descricao = st.text_input("Informe a nova descrição")
             diretoria = st.selectbox('Nova diretoria', diretorias, index=None, placeholder='Selecione a diretoria')
         if st.button("Atualizar"):
-            id = op.get_id()
-            View.curso_atualizar(id, nome, descricao, diretoria.get_id())
-            st.success("Curso atualizado com sucesso")
-            time.sleep(2)
-            st.rerun()
+            if op == None: st.error('Selecione um curso')
+            elif nome == '': st.error('Insira um nome')
+            elif descricao == '': st.error('Insira uma descrição')
+            elif diretoria == None: st.error('Selecione uma diretoria')
+            else:
+                id = op.get_id()
+                View.curso_atualizar(id, nome, descricao, diretoria.get_id())
+                st.success("Curso atualizado com sucesso")
+                time.sleep(2)
+                st.rerun()
 
     def excluir():
         cursos = View.curso_listar()
@@ -57,8 +66,10 @@ class ManterCursoUI:
         else:
             op = st.selectbox("Exclusão de cursos", cursos, index=None, placeholder='Selecione o curso')
             if st.button("Excluir"):
-                id = op.get_id()
-                View.curso_excluir(id)
-                st.success("Curso excluído com sucesso")
-                time.sleep(2)
-                st.rerun()
+                if op == None: st.error('Selecione um curso')
+                else:
+                    id = op.get_id()
+                    View.curso_excluir(id)
+                    st.success("Curso excluído com sucesso")
+                    time.sleep(2)
+                    st.rerun()

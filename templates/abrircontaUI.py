@@ -16,7 +16,13 @@ class AbrirContaUI:
     senha = st.text_input("Informe a senha")
     diretoria = st.selectbox('Diretoria', diretorias, index=None, placeholder='Selecione a diretoria')
     if st.button("Inserir"):
-      View.professor_inserir(nome, email, fone, senha, diretoria.get_id())
-      st.success("Conta criada com sucesso")
-      time.sleep(2)
-      st.rerun()
+      if nome == '': st.error('Insira um nome')
+      elif email == '': st.error('Insira um e-mail')
+      elif fone == '': st.error('Insira um fone')
+      elif senha == '': st.error('Insira uma senha')
+      elif diretoria == None: st.error('Selecione uma diretoria')
+      else:
+        View.professor_inserir(nome, email, fone, senha, diretoria.get_id())
+        st.success("Conta criada com sucesso")
+        time.sleep(2)
+        st.rerun()
