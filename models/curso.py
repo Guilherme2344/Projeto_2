@@ -1,5 +1,5 @@
 import json
-from datetime import datetime
+from models.modelo import Modelo
 
 class Curso:
     def __init__(self, id, nome, descricao,iddiretoria):
@@ -28,66 +28,21 @@ class Curso:
     def __str__(self):
         return f'{self.__id}, {self.__nome},{self.__descricao}, {self.__iddiretoria}'
 
-class NCurso:
-    __Cursos = []
-
-    @classmethod
-    def inserir(cls, obj):
-        NCurso.abrir()
-        id = 0
-        for curso in cls.__Cursos:
-            if curso.get_id() > id: id = curso.get_id()
-        obj.set_id(id + 1)
-        cls.__Cursos.append(obj)
-        NCurso.salvar()
-
-    @classmethod
-    def listar(cls):
-        NCurso.abrir()
-        return cls.__Cursos
-
-    @classmethod
-    def listar_id(cls, id):
-        NCurso.abrir()
-        for Curso in cls.__Cursos:
-            if Curso.get_id() == id: return Curso
-        return None
-
-    @classmethod
-    def atualizar(cls, obj):
-        NCurso.abrir()
-        curso = cls.listar_id(obj.get_id())
-        if Curso is not None:
-            curso.set_id(obj.get_id())
-            curso.set_nome(obj.get_nome())
-            curso.set_descricao(obj.get_descricao())
-            curso.set_iddiretoria(obj.get_iddiretoria())
-            NCurso.salvar()
-
-    @classmethod
-    def excluir(cls, obj):
-        NCurso.abrir()
-        Curso = cls.listar_id(obj.get_id())
-        if Curso is not None:
-            cls.__Cursos.remove(Curso)
-            NCurso.salvar()
+class NCurso(Modelo):
 
     @classmethod
     def abrir(cls):
         try:
-            cls.__Cursos = []
+            cls.objetos = []
             with open('cursos.json', 'r') as arquivo:
                 a = json.load(arquivo)
                 for curso in a:
                     d = Curso(curso['_Curso__id'], curso['_Curso__nome'], curso['_Curso__descricao'], curso["_Curso__iddiretoria"])
-                    cls.__Cursos.append(d)
+                    cls.objetos.append(d)
         except FileNotFoundError:
             pass
 
     @classmethod
     def salvar(cls):
         with open('cursos.json', 'w') as arquivo:
-            json.dump(cls.__Cursos, arquivo, default=vars)
-
-
-
+            json.dump(cls.objetos, arquivo, default=vars)

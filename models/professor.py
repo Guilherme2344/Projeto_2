@@ -1,4 +1,5 @@
 import json
+from models.modelo import Modelo
 
 class Professor:
     def __init__(self, id, nome, email, fone, senha, idDiretoria):
@@ -37,65 +38,21 @@ class Professor:
     def __str__(self):
         return f'{self.__id}, {self.__nome}, {self.__email}, {self.__fone}, {self.__senha}, {self.__iddiretoria}'
 
-class NProfessor:
-    __professor = []
-
-    @classmethod
-    def inserir(cls, obj):
-        NProfessor.abrir()
-        id = 0
-        for professor in cls.__professor:
-            if professor.get_id() > id: id = professor.get_id()
-        obj.set_id(id + 1)
-        cls.__professor.append(obj)
-        NProfessor.salvar()
-
-    @classmethod
-    def listar(cls):
-        NProfessor.abrir()
-        return cls.__professor
-
-    @classmethod
-    def listar_id(cls, id):
-        NProfessor.abrir()
-        for professor in cls.__professor:
-            if professor.get_id() == id: return professor
-        return None
-
-    @classmethod
-    def atualizar(cls, obj):
-        NProfessor.abrir()
-        professor = cls.listar_id(obj.get_id())
-        if professor is not None:
-            professor.set_id(obj.get_id())
-            professor.set_nome(obj.get_nome())
-            professor.set_email(obj.get_email())
-            professor.set_fone(obj.get_fone())
-            professor.set_senha(obj.get_senha())
-            professor.set_iddiretoria(obj.get_iddiretoria())
-            NProfessor.salvar()
-
-    @classmethod
-    def excluir(cls, obj):
-        NProfessor.abrir()
-        Professor = cls.listar_id(obj.get_id())
-        if Professor is not None:
-            cls.__professor.remove(Professor)
-            NProfessor.salvar()
+class NProfessor(Modelo):
 
     @classmethod
     def abrir(cls):
         try:
-            cls.__professor = []
+            cls.objetos = []
             with open('professores.json', 'r') as arquivo:
                 a = json.load(arquivo)
                 for professor in a:
                     d = Professor(professor['_Professor__id'], professor['_Professor__nome'], professor['_Professor__email'], professor['_Professor__fone'], professor['_Professor__senha'],professor['_Professor__iddiretoria'])
-                    cls.__professor.append(d)
+                    cls.objetos.append(d)
         except FileNotFoundError:
             pass
 
     @classmethod
     def salvar(cls):
         with open('professores.json', 'w') as arquivo:
-            json.dump(cls.__professor, arquivo, default=vars)
+            json.dump(cls.objetos, arquivo, default=vars)
