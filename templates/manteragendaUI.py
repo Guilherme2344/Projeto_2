@@ -30,7 +30,7 @@ class ManterAgendaUI:
         curso = st.selectbox('Curso', cursos, index=None, placeholder='Selecione o curso')
         professor = st.selectbox('Professor', professores, index=None, placeholder='Selecione o professor')
         if st.button("Inserir"):
-            if data == '' or ValueError(): st.error('Insira uma data válida')
+            if data == '': st.error('Insira uma data válida')
             elif curso == None: st.error('Selecione um curso')
             elif professor == None: st.error('Selecione um professor')
             else:
@@ -53,7 +53,7 @@ class ManterAgendaUI:
             professor = st.selectbox('Professor', professores, index=None, placeholder='Selecione o novo professor')
             if st.button("Atualizar"):
                 if op == None: st.error('Selecione uma diretoria')
-                elif data == '' or ValueError(): st.error('Insira uma data válida')
+                elif data == '': st.error('Insira uma data válida')
                 elif curso == None: st.error('Selecione um curso')
                 elif professor == None: st.error('Selecione um professor')
                 else:
